@@ -1,0 +1,146 @@
+This project focuses on understanding how attackers perform reconnaissance to gather intelligence about target systems before launching cyberattacks. It examines common techniques such as network scanning, port scanning, and service enumeration used to identify vulnerabilities. The project also explores methods for detecting unauthorized scans using intrusion detection systems and log analysis. By studying both attacker strategies and defensive measures, the project aims to improve early threat detection and network security awareness.
+
+**Step 1: Prepare Linux Environment (Rocky **Linux)****
+
+1.1 Update system
+sudo dnf update -y
+
+1.2 Check network connectivity
+ip a
+
+Example Output:
+    inet 192.168.169.x/x
+
+**Step 2: Install Nmap on Rocky Linux**
+
+2.1 Rocky Linux uses DNF.
+sudo dnf install nmap -y
+
+2.2 Verify installation:
+nmap --version
+
+Example Version:
+Nmap version 7.x
+
+**Step 3: Identifying Target Network**
+
+3.1 Find default gateway
+ip route
+
+Example:
+default via 192.168.x.x
+
+**Step 4: Discover Live Hosts (Network Mapping)**
+nmap -sn 192.168.56.0/24
+
+What happens:
+
+- Sends ARP/ICMP probes
+- Finds active hosts only
+
+Example output:
+Nmap scan report for 192.168.x.x
+Host is up
+Nmap scan report for 192.168.x.x
+Host is up
+
+**Step 5: Scan Open TCP Ports**
+nmap 192.168.x.x
+
+Output example:
+PORT   STATE SERVICE
+53/tcp open  domain
+MAC Address: 00:x:x:x:x:99 (VMware)
+
+**Step 6: Service & Version Detection**
+nmap -sV 192.168.56.102
+
+Example:
+PORT   STATE SERVICE VERSION
+53/tcp open  domain  dnsmasq 2.51
+MAC Address: 00:x:x:x:x:99 (VMware)
+
+**Step 7: OS Detection (Requires Root)**
+sudo nmap -O 192.168.56.102
+
+Example:
+PORT   STATE SERVICE
+53/tcp open  domain
+MAC Address: 00:x:x:x:x:99 (VMware)
+Aggressive OS guesses: VMware Player virtual NAT device (98%), Microsoft Windows XP SP3 or Windows 7 or Windows Server 2012 (93%), Microsoft Windows XP SP3 (93%), etc,.
+
+**Step 8: Aggressive Scan (Full Recon)**
+sudo nmap -A 192.168.56.102
+
+Example:
+PORT   STATE SERVICE VERSION
+53/tcp open  domain  dnsmasq 2.51 | dns-nsid: |  bind.version: dnsmasq-2.51
+MAC Address: 00:x:x:x:x:99 (VMware)
+Aggressive OS guesses: VMware Player virtual NAT device (98%), Microsoft Windows XP SP3 or Windows 7 or Windows Server 2012 (93%), Microsoft Windows XP SP3 (93%), etc,.
+Network Distance: 1 hop
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   6.78 ms 192.168.x.x
+
+**Step 9: Use Nmap Scripting Engine (NSE)**
+
+9.1 View available scripts
+ls /usr/share/nmap/scripts
+
+9.2 Run vulnerability scan
+sudo nmap --script vuln 192.168.x.x
+
+**Step 10: Stealth Scan (SYN Scan)**
+sudo nmap -sS 192.168.x.x
+
+Why attackers use this:
+- Half-open scan
+- Less likely to be logged
+
+**Step 11: UDP Port Scanning**
+sudo nmap -sU 192.168.x.x
+
+**Step 12: Save Scan Results (For documentation)**
+nmap -A 192.168.x.x -oA rocky_scan_report
+
+"Files are created"
+--To view files give command 'ls'.
+
+**Step 13: Defensive View – Detect Scans on Rocky Linux**
+
+Check firewall logs:
+sudo firewall-cmd --list-all
+
+Enable logging:
+sudo firewall-cmd --set-log-denied=all
+
+View logs:
+sudo journalctl -xe | grep DROP
+
+
+FINAL REPORT:
+
+Project Title: Network Scanning & Information Gathering
+OS Used: Rocky Linux 9
+Tool: Nmap
+
+Steps Performed:
+- Host discovery
+- Port scanning
+- OS detection
+- Vulnerability scanning
+
+Findings:
+- Open ports
+- Services & versions
+- Potential vulnerabilities
+
+Security Recommendations:
+- Close unused ports
+- Enable firewall
+- Update services
+
+
+<img width="1730" height="929" alt="Image" src="https://github.com/user-attachments/assets/01e48167-fa4d-4a68-bea1-1bbd63248ad7" />
+<img width="1722" height="920" alt="Image" src="https://github.com/user-attachments/assets/9d6b587f-42a8-4db1-a981-2d01c6a267d7" />
