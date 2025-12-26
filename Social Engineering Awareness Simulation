@@ -1,0 +1,90 @@
+Overview
+This project demonstrates an ethical phishing awareness simulation using GoPhish on Kali Linux.
+The objective is not to attack, but to educate users on how phishing emails work and how to identify them. The simulation was conducted in a controlled lab environment using test email accounts only.
+
+Objective
+⦁	To demonstrate how phishing emails trick users using social engineering techniques
+⦁	To train users to identify phishing red flags
+⦁	To measure user interaction safely (opens & clicks)
+⦁	To design an internal security awareness campaign
+⦁	To promote cyber hygiene best practices
+
+Tool Used
+1.	GoPhish Framework
+2.	Platform: Kali Linux
+3.	Type: Open-source phishing simulation tool
+4.	Purpose:
+   Create phishing email templates
+   Simulate email delivery
+   Track user awareness metrics
+   Redirect users to an awareness page instead of harvesting data
+
+Why GoPhish?
+Industry-standard tool
+Used by blue teams and SOC analysts
+Supports ethical training campaigns
+
+1.	Phishing Email Template:
+
+Subject: Immediate Action Required – Email Security Alert
+
+Dear User,
+We detected unusual login activity on your email account.
+To prevent temporary suspension, please review your security
+settings immediately.
+[ Review Activity ]
+
+IT Security Team
+Company Name
+
+Social Engineering Techniques Used:
+⦁	Urgency (“Immediate Action Required”)
+⦁	Fear (Account suspension warning)
+⦁	Authority (IT Security Team)
+⦁	Generic greeting
+⦁	Call-to-action button
+
+**No malicious links or credential harvesting were used.**
+
+2. Landing Page:
+
+Instead of a fake login page, users were redirected to an education page.
+
+Awareness Message Displayed:
+This was a PHISHING SIMULATION.
+
+Red Flags:
+✔ Urgent language
+✔ Generic greeting
+✔ Suspicious link
+✔ Pressure tactics
+
+Always verify emails before clicking.
+Report suspicious emails to IT Security.
+
+Lessons Learned:
+⦁	Phishing emails rely more on psychology than technology
+⦁	Urgency and authority significantly increase click rates
+⦁	Generic greetings are a major red flag
+⦁	Many users click links without checking URLs
+⦁	Awareness training reduces repeated mistakes
+
+Preventive Recommendations
+To reduce phishing risks:
+     Enable Multi-Factor Authentication (MFA)
+     Conduct regular phishing awareness training
+Teach users to:
+     Hover over links
+     Verify sender domains
+     Avoid urgency-based emails
+     Use email security gateways
+     Encourage immediate reporting of suspicious emails
+
+Ethical Considerations:
+No real users were targeted
+No passwords or sensitive data were collected
+All activities were performed in a controlled lab environment
+Purpose was education only
+
+Conclusion:
+This project successfully demonstrates how phishing attacks operate and how awareness training can significantly reduce human-related security risks. It highlights the importance of user education as a critical layer of cybersecurity defense.
