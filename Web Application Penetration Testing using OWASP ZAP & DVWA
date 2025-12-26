@@ -1,0 +1,128 @@
+Abstract
+This project demonstrates web application penetration testing in a controlled lab environment using OWASP ZAP and Damn Vulnerable Web Application (DVWA) deployed via Docker on Rocky Linux. The goal is to identify and analyze common web vulnerabilities such as SQL Injection and Cross-Site Scripting (XSS) using proxy-based interception and manual testing techniques. All testing is performed ethically on intentionally vulnerable applications to understand real-world attack patterns and security weaknesses.
+
+Introduction
+Web applications are frequent targets of cyberattacks due to insecure coding practices and improper input validation. Vulnerabilities like SQL Injection and XSS are ranked among the OWASP Top 10 and can lead to data breaches, session hijacking, and system compromise.
+
+In this project:
+⦁	DVWA is used as a vulnerable target web application.
+⦁	OWASP ZAP runs in daemon mode as an intercepting proxy.
+⦁	Firefox is configured to route traffic through ZAP.
+⦁	Attacks are performed manually to observe real exploitation behavior.
+⦁	A vulnerability assessment report is generated from ZAP.
+This setup closely simulates real-world web penetration testing workflows used by security professionals.
+
+Environment & Tools:
+⦁	Operating System: Rocky Linux (VMware Workstation)
+⦁	Container Platform: Docker
+⦁	Target Application: Damn Vulnerable Web Application (DVWA)
+⦁	Security Tool: OWASP ZAP (Docker – Daemon Mode)
+⦁	Browser: Firefox (Manual Proxy Configured)
+
+Implementation & Commands:
+
+1️⃣ Install Docker on Rocky Linux
+sudo dnf install -y yum-utils
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+sudo dnf install -y docker-ce docker-ce-cli containerd.io
+sudo systemctl start docker
+sudo systemctl enable docker
+
+2️⃣ Deploy DVWA Container (Port 8081)
+sudo docker run -d \
+--name dvwa \
+-p 8081:80 \
+vulnerables/web-dvwa
+
+Access DVWA:
+http://localhost:8081
+
+Default credentials:
+Username: admin
+Password: password
+Set DVWA Security Level → Low
+
+3️⃣ Run OWASP ZAP in Daemon Mode (Port 8080)
+sudo docker run -d \
+--name zap_daemon \
+-p 8080:8080 \
+zaproxy/zap-stable zap.sh \
+-daemon \
+-host 0.0.0.0 \
+-port 8080
+
+Verify containers:
+sudo docker ps
+
+4️⃣ Configure Firefox Proxy
+Firefox → Settings → Network Settings → Manual Proxy Configuration
+HTTP Proxy: 127.0.0.1
+Port: 8080
+
+5️⃣ Traffic Interception Verification
+Browse any site (example.com) to confirm:
+⦁	Proxy is active
+⦁	ZAP logs show intercepted requests
+
+6️⃣ SQL Injection Testing (DVWA)
+Navigate to:
+DVWA → SQL Injection
+
+Sample payload (Low security):
+1' OR '1'='1
+
+Result:
+⦁	Unauthorized data disclosure
+⦁	User information retrieved
+⦁	Vulnerability confirmed
+
+7️⃣ Reflected XSS Testing (DVWA)
+Navigate to:
+DVWA → XSS (Reflected)
+
+Payload:
+<script>alert('XSS')</script>
+
+Result:
+⦁	JavaScript alert execution
+⦁	Confirms reflected XSS vulnerability
+
+8️⃣ OWASP ZAP Logs Verification
+
+View ZAP logs:
+sudo docker logs -f zap_daemon
+
+Logs show:
+⦁	Intercepted HTTP requests
+⦁	Active and passive scanners initialized
+⦁	Session creation and extension loading
+
+9️⃣ Generate OWASP ZAP HTML Report
+sudo docker exec zap_daemon curl \
+  "http://localhost:8080/JSON/reports/action/generate/?title=Web_App_Pentest_Report&template=traditional-html&reportFileName=zap_report.html&reportDir=/tmp"
+
+Copy report to host:
+sudo docker cp zap_daemon:/tmp/zap_report.html .
+
+Vulnerabilities Identified:
+⦁	SQL Injection
+⦁	Reflected Cross-Site Scripting (XSS)
+⦁	Weak Input Validation
+⦁	Insecure Application Configuration
+⦁	Concepts & Skills Learned
+⦁	Web Application Penetration Testing
+⦁	OWASP Top 10 vulnerabilities
+⦁	Proxy-based attack analysis
+⦁	Manual exploitation techniques
+⦁	Dockerized security tooling
+⦁	Secure coding awareness
+
+⚠️ Disclaimer
+This project is conducted strictly for educational purposes on deliberately vulnerable applications.
+Unauthorized penetration testing is illegal and unethical.
+
+Conclusion
+This project successfully demonstrates a real-world style web application penetration testing lab using OWASP ZAP and DVWA. It provides practical exposure to vulnerability discovery, exploitation, and reporting, making it suitable for cybersecurity learning and professional portfolios.
+
+
+
