@@ -56,7 +56,7 @@ The author is not responsible for misuse of any content in this repository.
 
 🚀 Getting Started
 Clone the repository
-https://github.com/Sai-Theertha-02/Cybersecurity-Project-Trainee.git
+https://github.com/Sai-Theertha-02/Cybersecurity-Projects.git
 
 📚 Learning Mindset
 “To defend a system, you must first understand how it can be attacked — ethically.”
